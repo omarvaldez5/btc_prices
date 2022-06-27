@@ -41,7 +41,7 @@ vds.getwd() # Current Working Directory
 url = "https://api.coingecko.com/api/v3/coins/list"
 json_data = requests.get(url).json()
 
-# Save json data in json format
+# Save json data to get list
 with open('Misc/mydata.json', 'w') as f:
     json.dump(json_data, f)
 
@@ -117,6 +117,7 @@ def get_historical_data(start_date, end_date, coin_name, currency):
     
     data = (
         data.rename_column(old_column_name="index", new_column_name="date")
+        .select_columns(["date", "closing_price"])
         .query("date.between(@begin, @end)")
     )
     
@@ -128,8 +129,6 @@ df = get_historical_data(start_date="2022-01-01", end_date="2022-03-31", coin_na
 
 # Quick Exploratory Data Analysis
 jr.get_dupes(df)
-df["id"].count()
-df["id"].nunique()
 df.isnull().sum()
 df.shape
 df.info()
@@ -164,7 +163,7 @@ conn.close() # Remember to close connection
 avg_data = df.assign(moving_average=df["closing_price"].rolling(5).mean())
 
 # NOTE:
-# If you want to copy paste info to see it in an excel file, do the following:
+# If you want to copy paste info to an excel file, do the following:
 avg_data.to_clipboard()
 
 
@@ -190,7 +189,7 @@ conn.close() # Remember to close connection
 # Plotnine wants you to specify aes() parameters as columns
 # in your dataset.
 plot_tbl = avg_data.pivot_longer(
-    index=["date", "id"],
+    index=["date"],
     column_names=["closing_price", "moving_average"],
     names_to="type",
     values_to="value"
