@@ -90,6 +90,20 @@ mxn_btc_price["bitcoin"]["mxn"] # Current price
 # Function to retrieve historical data from one specific coin
 def get_historical_data(start_date, end_date, coin_name, currency):
     
+    """Historical Closing Prices From Specific Coin
+
+    Inputs:
+    * start_date: First date to pull
+    * end_date: Last date to pull
+    * coin_name: Name of the specific coin to retrieve
+    * currency: Retrieve specific currency
+    
+    To obtain currency and/or coin name list, go to: https://api.coingecko.com/api/v3/coins/list
+    
+    Returns:
+        data: Pandas DataFrame
+    """
+    
     # Interval date creation
     range_dates = (
         pd.DataFrame(
