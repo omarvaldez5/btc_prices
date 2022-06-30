@@ -41,6 +41,13 @@ vds.getwd() # Current Working Directory
 url = "https://api.coingecko.com/api/v3/coins/list"
 json_data = requests.get(url).json()
 
+# status 200
+# (avoid Error)
+# Unless sure of what to receive
+
+# Every action validate status code
+
+
 # Save json data to get list
 with open('Misc/mydata.json', 'w') as f:
     json.dump(json_data, f)
